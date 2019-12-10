@@ -1,6 +1,7 @@
 from scrapy import Spider, Request
 import re
 import json
+from utils import time_str2iso_format
 
 
 class NewsCrawler(Spider):
@@ -43,17 +44,17 @@ class VNExpress(NewsCrawler):
         tags = [tag.strip() for tag in response.xpath(self.xpath['tags']).getall()]
 
         article_id = re.findall(r'.+-(\d+)\.htm', response.request.url)
-        data = {'time': time.strip() if time is not None else '',
+        data = {'time': time_str2iso_format(time.strip()) if time is not None else '',
                 'title': title.strip() if title is not None else '',
                 'description': description.strip() if description is not None else '',
                 'content': content,
                 'author': author.strip() if author is not None else '',
                 'tags': tags,
                 'url': response.request.url}
-        if len(article_id) > 0:
-            yield Request(url=self.get_comment_url(article_id[0]), callback=self.parse_comments,
-                          meta={'data': data})
-        else:
+        # if len(article_id) > 0:
+        #     yield Request(url=self.get_comment_url(article_id[0]), callback=self.parse_comments,
+        #                   meta={'data': data})
+        if data['title'] and data['description'] and data['content']:
             yield data
 
     def parse_comments(self, response):
@@ -82,9 +83,12 @@ class News24h(NewsCrawler):
                    paragraph != '']
         author = ''.join(response.xpath(self.xpath['author']).getall())
 
-        yield {'time': time.strip() if time is not None else '',
-               'title': title.strip() if title is not None else '',
-               'description': description.strip() if description is not None else '',
-               'content': content,
-               'author': author.strip(),
-               'url': response.request.url}
+        data = {'time': time_str2iso_format(time.strip(), is_24h_format=False) if time is not None else '',
+                'title': title.strip() if title is not None else '',
+                'description': description.strip() if description is not None else '',
+                'content': content,
+                'author': author.strip(),
+                'url': response.request.url}
+
+        if data['title'] and data['description'] and data['content']:
+            yield data

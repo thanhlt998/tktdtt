@@ -11,7 +11,8 @@ SETTINGS = {
     'TELNETCONSOLE_PORT': None,
     'FEED_EXPORT_ENCODING': 'utf-8',
     'FEED_EXPORT': 'jsonlines',
-    # 'FEED_URI': 'data/vnexpress.jsonl'
+    # 'FEED_URI': 'data/vnexpress.jsonl',
+    'CLOSESPIDER_ITEMCOUNT': 40000
 }
 
 VNEXPRESS_START_URLS = [
@@ -80,3 +81,8 @@ VN24H_XPATH = {
     'tag': "//div[contains(@class,'block_tag')]/h3/a/text()",
     'next_page': "//div[@id='left']/main//article[contains(@class,'pgCate')]//ul[@class='pg']/li[contains(@class, 'pgAt')]/a/@href"
 }
+
+APP_BIND_ADDRESS = 'localhost'
+APP_BIND_PORT = 8080
+# SOLR_COLLECTION_PATH = 'http://localhost:8983/solr/news'
+SOLR_COLLECTION_PATH = 'http://localhost:8983/solr/tktdtt_test'
