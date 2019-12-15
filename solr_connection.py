@@ -1,5 +1,4 @@
 import pysolr
-from pyvi.ViTokenizer import ViTokenizer
 from underthesea import ner
 
 import utils
@@ -23,9 +22,12 @@ class SolrConnection:
     def add_docs(self, docs):
         self.connection.add(docs, commit=True)
 
-    def search(self, text):
+    def search(self, text, rows=10, start=0, sort='score desc', return_score=False):
+        params = {'rows': rows, 'start': start, 'sort': sort}
+        if return_score:
+            params['fl'] = '*,score'
         query = self.build_query(text=text)
-        results = self.connection.search(q=query)
+        results = self.connection.search(q=query, **params)
         return results
 
     def delete(self, doc_id, q):
@@ -36,8 +38,12 @@ class SolrConnection:
 
     def build_query(self, text):
         tokens = ner(text)
+        # query_tokens = [
+        #     f'(title:"{token}"^2 OR description:"{token}"^1.5 OR content:"{token}"^1)^={WEIGHT_MAP[ner_tag]}'
+        #     for token, _, _, ner_tag in tokens
+        # ]
         query_tokens = [
-            f'(title:"{token}"^2 OR description:"{token}"^1.5 OR content:"{token}"^1)^={WEIGHT_MAP[ner_tag]}'
+            f'(title:"{token}" OR description:"{token}" OR content:"{token}")'
             for token, _, _, ner_tag in tokens
         ]
 
