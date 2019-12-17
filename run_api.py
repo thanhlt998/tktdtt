@@ -13,7 +13,7 @@ def get_app():
     @app.route("/api/search", methods=['GET'])
     def search():
         query_text = request.args.get('q', default="", type=str)
-        results = connection.search(query_text)
+        results = connection.search(query_text, rows=50)
         return jsonify(list(results))
 
     return app

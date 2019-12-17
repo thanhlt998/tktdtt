@@ -38,8 +38,14 @@ class VNExpress(NewsCrawler):
         time = response.xpath(self.xpath['time']).get()
         title = response.xpath(self.xpath['title']).get()
         description = response.xpath(self.xpath['description']).get()
-        content = [paragraph for paragraph in [p.strip() for p in response.xpath(self.xpath['content']).getall()] if
-                   paragraph != '']
+        # content = [paragraph for paragraph in [p.strip() for p in response.xpath(self.xpath['content']).getall()] if
+        #            paragraph != '']
+        paragraphs = response.xpath(self.xpath['content'])
+        content = [
+            ' '.join([text.strip() for text in paragraph.xpath(".//text()").getall()])
+            for paragraph in paragraphs
+        ]
+        content = [text for text in content if text]
         author = ''.join(response.xpath(self.xpath['author']).getall())
         tags = [tag.strip() for tag in response.xpath(self.xpath['tags']).getall()]
 
@@ -79,8 +85,14 @@ class News24h(NewsCrawler):
         time = response.xpath(self.xpath['time']).get()
         title = response.xpath(self.xpath['title']).get()
         description = response.xpath(self.xpath['description']).get()
-        content = [paragraph for paragraph in [p.strip() for p in response.xpath(self.xpath['content']).getall()] if
-                   paragraph != '']
+        # content = [paragraph for paragraph in [p.strip() for p in response.xpath(self.xpath['content']).getall()] if
+        #            paragraph != '']
+        paragraphs = response.xpath(self.xpath['content'])
+        content = [
+            ' '.join([text.strip() for text in paragraph.xpath(".//text()").getall()])
+            for paragraph in paragraphs
+        ]
+        content = [text for text in content if text]
         author = ''.join(response.xpath(self.xpath['author']).getall())
 
         data = {'time': time_str2iso_format(time.strip(), is_24h_format=False) if time is not None else '',

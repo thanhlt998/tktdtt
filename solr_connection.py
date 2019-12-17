@@ -1,7 +1,6 @@
 import pysolr
-from underthesea import ner
+from underthesea import word_tokenize
 
-import utils
 
 WEIGHT_MAP = {
     'B-LOC': 2,
@@ -27,6 +26,7 @@ class SolrConnection:
         if return_score:
             params['fl'] = '*,score'
         query = self.build_query(text=text)
+        print(query)
         results = self.connection.search(q=query, **params)
         return results
 
@@ -37,14 +37,12 @@ class SolrConnection:
         self.connection.delete(q="*:*", commit=True)
 
     def build_query(self, text):
-        tokens = ner(text)
-        # query_tokens = [
-        #     f'(title:"{token}"^2 OR description:"{token}"^1.5 OR content:"{token}"^1)^={WEIGHT_MAP[ner_tag]}'
-        #     for token, _, _, ner_tag in tokens
-        # ]
-        query_tokens = [
-            f'(title:"{token}" OR description:"{token}" OR content:"{token}")'
-            for token, _, _, ner_tag in tokens
-        ]
+        tokens = word_tokenize(text, format='text').split()
+        q = ' AND '.join(
+            [
+                f"({' '.join([f'{field}:{token}' for token in tokens])})" for field in
+                ['title_indexed', 'description_indexed', 'content_indexed']
+            ]
+        )
 
-        return ' AND '.join(query_tokens)
+        return q

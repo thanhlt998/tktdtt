@@ -39,7 +39,7 @@ VNEXPRESS_XPATH = {
     'time': "//html/body/section[contains(@class,'container')]//section[@class='sidebar_1']/header/span[contains(@class,'time')]/text()",
     'title': "//html/body/section[contains(@class,'container')]//section[@class='sidebar_1']//h1[contains(@class,'title_news_detail')]/text()",
     'description': "//html/body/section[contains(@class,'container')]//section[@class='sidebar_1']//p[contains(@class,'description')]/text()",
-    'content': "//html/body/section[contains(@class,'container')]//section[@class='sidebar_1']//article[contains(@class,'content_detail')]//p[not(contains(@style,'text-align'))]/text()",
+    'content': "//html/body/section[contains(@class,'container')]//section[@class='sidebar_1']//article[contains(@class,'content_detail')]//p[not(contains(@style,'text-align'))]",
     'author': "//html/body/section[contains(@class,'container')]//section[@class='sidebar_1']//p[contains(@style,'text-align') or contains(@class,'author')]//text()",
     'tags': "//div[contains(@class,'block_tag')]/h3/a/text()",
     'comments': "",
@@ -76,7 +76,7 @@ VN24H_XPATH = {
     'time': "//div[@id='left']/main//section/article[contains(@class,'nwsHt')]/div[contains(@class,'updTm updTmD')]/text()",
     'title': "//div[@id='left']/main//section/article[contains(@class,'nwsHt')]/header/h1/text()",
     'description': "//div[@id='left']/main//section/article[contains(@class,'nwsHt')]/h2[@class='ctTp']/text()",
-    'content': "//div[@id='left']/main//section/article[contains(@class,'nwsHt')]/p/text()",
+    'content': "//div[@id='left']/main//section/article[contains(@class,'nwsHt')]/p",
     'author': "//div[@id='left']/main//div[contains(@class,'nguontin')]//text()",
     'tag': "//div[contains(@class,'block_tag')]/h3/a/text()",
     'next_page': "//div[@id='left']/main//article[contains(@class,'pgCate')]//ul[@class='pg']/li[contains(@class, 'pgAt')]/a/@href"
@@ -85,4 +85,5 @@ VN24H_XPATH = {
 APP_BIND_ADDRESS = 'localhost'
 APP_BIND_PORT = 8080
 # SOLR_COLLECTION_PATH = 'http://localhost:8983/solr/news'
-SOLR_COLLECTION_PATH = 'http://localhost:8983/solr/tktdtt_test'
+# SOLR_COLLECTION_PATH = 'http://localhost:8983/solr/tktdtt_test'
+SOLR_COLLECTION_PATH = 'http://localhost:8983/solr/news_ir'

@@ -12,7 +12,7 @@ if __name__ == '__main__':
     process = CrawlerProcess(settings)
 
     configure_logging()
-    # process.crawl(VNExpress, name='vnexpress', domain='vnexpress.net', start_urls=VNEXPRESS_START_URLS,
-    #               xpath=VNEXPRESS_XPATH)
-    process.crawl(News24h, name='24h', domain='24h.com.vn', start_urls=VN24H_START_URLS, xpath=VN24H_XPATH)
+    process.crawl(VNExpress, name='vnexpress', domain='vnexpress.net', start_urls=VNEXPRESS_START_URLS,
+                  xpath=VNEXPRESS_XPATH)
+    # process.crawl(News24h, name='24h', domain='24h.com.vn', start_urls=VN24H_START_URLS, xpath=VN24H_XPATH)
     process.start()
